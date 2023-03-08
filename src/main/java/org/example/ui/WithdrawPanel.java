@@ -12,37 +12,6 @@ public class WithdrawPanel extends JPanel {
     private JTextArea outputTextArea;
 
     public WithdrawPanel() {
-//        setLayout(new BorderLayout());
-//
-//        // Create input panel
-//        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
-////        setLayout(new GridLayout(2, 2, 10, 10));
-//        setBorder(BorderFactory.createTitledBorder("Withdraw"));
-
-//        accountNumberLabel = new JLabel("Account Number:");
-//        inputPanel.add(accountNumberLabel);
-//        accountNumberField = new JTextField();
-//        inputPanel.add(accountNumberField);
-//
-//        withdrawalAmountLabel = new JLabel("Withdrawal Amount:");
-//        inputPanel.add(withdrawalAmountLabel);
-//        withdrawalAmountField = new JTextField();
-//        inputPanel.add(withdrawalAmountField);
-//
-//        submitButton = new JButton("Submit");
-//        submitButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // TODO: Add logic to withdraw the specified amount from the account
-//                // For now, just print the submitted information
-//                System.out.println("Withdraw requested:");
-//                System.out.println("Account Number: " + accountNumberField.getText());
-//                System.out.println("Withdrawal Amount: " + withdrawalAmountField.getText());
-//            }
-//        });
-//        add(inputPanel, BorderLayout.NORTH);
-//        add(submitButton, BorderLayout.CENTER);
-
         // Set panel layout
         setLayout(new BorderLayout());
 

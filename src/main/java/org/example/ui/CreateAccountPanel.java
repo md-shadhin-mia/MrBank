@@ -19,7 +19,7 @@ public class CreateAccountPanel extends JPanel {
     public CreateAccountPanel() {
         // Set panel layout
         setLayout(new BorderLayout());
-
+        setBorder(BorderFactory.createTitledBorder("Create Account"));
         // Create input panel
         JPanel inputPanel = new JPanel(new GridLayout(4, 2, 5, 5));
         accountNumberLabel = new JLabel("Account Number:");
