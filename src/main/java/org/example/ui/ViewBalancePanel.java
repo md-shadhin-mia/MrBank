@@ -1,17 +1,22 @@
 package org.example.ui;
 
+import org.example.AccountManager;
+import org.example.CurrentAccount;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ViewBalancePanel extends JPanel {
+    private final AccountManager accountManager;
     private JLabel accountNumberLabel, balanceLabel;
     private JTextField accountNumberField;
     private JButton submitButton;
     private JTextArea outputTextArea;
 
     public ViewBalancePanel() {
+        accountManager = AccountManager.getInstance();
         setLayout(new BorderLayout());
 
         JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
@@ -35,6 +40,12 @@ public class ViewBalancePanel extends JPanel {
                 // For now, just print the submitted information
                 System.out.println("View Balance requested:");
                 System.out.println("Account Number: " + accountNumberField.getText());
+                CurrentAccount account = accountManager.findAccount(accountNumberField.getText());
+                String output = " Account Number = " + account.getAccountNumber() + '\n' +
+                        " Account Holder = " + account.getAccountHolder() + '\n' +
+                        " Balance = " + account.getBalance() +"";
+                balanceLabel.setText("Balance: "+account.getBalance());
+                outputTextArea.setText(output);
             }
         });
         buttonPanel.add(submitButton);

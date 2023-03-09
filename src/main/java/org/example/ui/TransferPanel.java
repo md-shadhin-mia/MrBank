@@ -1,4 +1,8 @@
 package org.example.ui;
+import org.example.AccountManager;
+import org.example.CurrentAccount;
+import org.example.InsufficientFundsException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,12 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TransferPanel extends JPanel {
+    private final AccountManager accountManager;
     private JLabel accountNumberLabel, amountLabel, toAccountNumberLabel;
     private JTextField accountNumberField, amountField, toAccountNumberField;
     private JButton submitButton;
     private JTextArea outputTextArea;
 
     public TransferPanel() {
+        accountManager = AccountManager.getInstance();
         setLayout(new BorderLayout());
 
         // Create input panel
@@ -48,6 +54,18 @@ public class TransferPanel extends JPanel {
                 System.out.println("From Account Number: " + accountNumberField.getText());
                 System.out.println("To Account Number: " + toAccountNumberField.getText());
                 System.out.println("Amount: " + amountField.getText());
+                CurrentAccount sourceAccount = accountManager.findAccount(accountNumberField.getText());
+                CurrentAccount destination = accountManager.findAccount(toAccountNumberField.getText());
+                double amount = Double.parseDouble(amountField.getText());
+                try {
+                    sourceAccount.Transfer(amount, destination);
+                    String output = "Transfer " + amount + " from account " + sourceAccount.getAccountNumber()+" to "+destination.getAccountNumber();
+                    outputTextArea.setForeground(Color.GREEN);
+                    outputTextArea.setText(output);
+                } catch (InsufficientFundsException ex) {
+                    outputTextArea.setForeground(Color.RED);
+                    outputTextArea.setText(ex.getMessage());
+                }
             }
         });
         buttonPanel.add(submitButton);

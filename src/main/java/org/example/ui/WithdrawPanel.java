@@ -1,17 +1,24 @@
 package org.example.ui;
 
+import org.example.AccountManager;
+import org.example.CurrentAccount;
+import org.example.InsufficientFundsException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WithdrawPanel extends JPanel {
+    private final AccountManager accountManager;
     private JLabel accountNumberLabel, withdrawalAmountLabel;
     private JTextField accountNumberField, withdrawalAmountField;
     private JButton submitButton;
     private JTextArea outputTextArea;
 
     public WithdrawPanel() {
+
+        accountManager = AccountManager.getInstance();
         // Set panel layout
         setLayout(new BorderLayout());
 
@@ -37,6 +44,22 @@ public class WithdrawPanel extends JPanel {
                 System.out.println("Withdraw requested:");
                 System.out.println("Account Number: " + accountNumberField.getText());
                 System.out.println("Withdrawal Amount: " + withdrawalAmountField.getText());
+
+                String accountNumber = accountNumberField.getText();
+                double amount = Double.parseDouble(withdrawalAmountField.getText());
+
+                CurrentAccount account = accountManager.findAccount(accountNumber);
+                try {
+                    account.withdraw(amount);
+                    String output = "Withdraw " + amount + " from account " + accountNumber;
+                    outputTextArea.setForeground(Color.GREEN);
+                    outputTextArea.setText(output);
+                } catch (Exception ex) {
+                    outputTextArea.setForeground(Color.RED);
+                    outputTextArea.setText(ex.getLocalizedMessage());
+                }
+
+
             }
         });
         buttonPanel.add(submitButton);

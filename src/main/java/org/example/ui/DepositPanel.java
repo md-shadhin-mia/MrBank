@@ -1,10 +1,14 @@
 package org.example.ui;
 
+import org.example.AccountManager;
+import org.example.CurrentAccount;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class DepositPanel extends JPanel {
+    private final AccountManager accountManager;
     private JLabel accountNumberLabel;
     private JLabel amountLabel;
     private JTextField accountNumberField;
@@ -13,6 +17,7 @@ public class DepositPanel extends JPanel {
     private JTextArea outputTextArea;
 
     public DepositPanel() {
+        accountManager = AccountManager.getInstance();
         // Set panel layout
         setLayout(new BorderLayout());
 
@@ -57,7 +62,8 @@ public class DepositPanel extends JPanel {
 
         // TODO: Process deposit transaction
         // This is where you would add the code to actually process the deposit transaction
-
+        CurrentAccount account = accountManager.findAccount(accountNumber);
+        account.deposit(amount);
         // Display output to user
         String output = "Deposited " + amount + " into account " + accountNumber;
         outputTextArea.setText(output);

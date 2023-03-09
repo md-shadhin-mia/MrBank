@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -22,10 +23,11 @@ public class SavingAccount extends CurrentAccount{
 
     @Override
     public void withdraw(double amount) throws InsufficientFundsException {
-        List<Transaction> transactions = getTransactionHistory().getTransactionsByDate(new Date());
+        List<Transaction> transactions = getTransactionHistory().getTransactionsByDate(LocalDate.now());
         if (transactions.size() > LIMIT){
-            throw new InsufficientFundsException();
+            throw new IllegalStateException("You can't withdraw , You are over the daily limit");
         }
+        System.out.println(transactions);
         super.withdraw(amount);
     }
 }

@@ -1,8 +1,14 @@
 package org.example.ui;
 
+import org.example.AccountManager;
+import org.example.CurrentAccount;
+import org.example.FixedAccount;
+import org.example.SavingAccount;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 
 public class CreateAccountPanel extends JPanel {
     private JLabel accountNumberLabel;
@@ -15,8 +21,9 @@ public class CreateAccountPanel extends JPanel {
     private JComboBox<String> accountTypeComboBox;
     private JButton createAccountButton;
     private JTextArea outputTextArea;
-
+    private AccountManager accountManager;
     public CreateAccountPanel() {
+        accountManager = AccountManager.getInstance();
         // Set panel layout
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder("Create Account"));
@@ -29,7 +36,7 @@ public class CreateAccountPanel extends JPanel {
         initialBalanceLabel = new JLabel("Initial Balance:");
         initialBalanceField = new JTextField();
         accountTypeLabel = new JLabel("Account Type:");
-        accountTypeComboBox = new JComboBox<>(new String[]{"Checking", "Savings"});
+        accountTypeComboBox = new JComboBox<>(new String[]{"Current", "Savings", "Fixed(1-year)"});
         inputPanel.add(accountNumberLabel);
         inputPanel.add(accountNumberField);
         inputPanel.add(accountHolderNameLabel);
@@ -74,7 +81,21 @@ public class CreateAccountPanel extends JPanel {
         System.out.println("Account Holder Name: " + accountHolderName);
         System.out.println("Initial Balance: " + initialBalance);
         System.out.println("Account Type: " + accountType);
+        //Creating account
+        CurrentAccount account;
+        if(accountType =="Current"){
+            account = new CurrentAccount(accountNumber, accountHolderName, initialBalance);
+        }else if(accountType == "Savings"){
+            account = new SavingAccount(accountNumber, accountHolderName, initialBalance);
+        }else{
+            account = new FixedAccount(accountNumber, accountHolderName, initialBalance, 12, LocalDate.now());
+        }
 
+        accountManager.addAccount(account);
+        outputTextArea.setText("Account Create Successfully!");
+        /*
+        * TODO: create logic for Account type
+        * */
 
     }
 }

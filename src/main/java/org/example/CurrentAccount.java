@@ -55,6 +55,15 @@ public class CurrentAccount {
         transactionHistory.addTransaction(new Transaction(-amount, LocalDate.now(), "Withdrawal"));
     }
 
+    public void Transfer(double amount,CurrentAccount toAccount) throws InsufficientFundsException {
+        if (amount > balance) {
+            throw new InsufficientFundsException();
+        }
+        balance -= amount;
+        toAccount.deposit(amount);
+        transactionHistory.addTransaction(new TransferTransaction(LocalDate.now(), -amount,this, toAccount));
+    }
+
     @Override
     public String toString() {
         return "CurrentAccount{\n" +
